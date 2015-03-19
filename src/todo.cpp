@@ -8,15 +8,18 @@ todo_t::todo_t (void) {
 }
 
 todo_t::~todo_t (void) {
-
+	for (auto i = this->m_list.begin() ; i < this->m_list.end() ; i++)
+		delete *i;
+	this->m_list.clear();
 }
 
 size_t todo_t::size (void) {
 	return this->m_length;
 }
 
-void todo_t::push (task_t* task) {
-	this->m_list.push_back (task);
+void todo_t::push (task_t task) {
+	task_t *temp = new task_t(task);
+	this->m_list.push_back (temp);
 	this->m_length++;
 }
 
@@ -62,6 +65,7 @@ int todo_t::erase (int index) {
 
 	for (int i=0;i<this->m_length;i++) {
 		if (i+1 == index) {
+			delete this->m_list[i];
 			this->m_list.erase(this->m_list.begin() + i);
 			this->m_length--;
 			return 1;
@@ -76,10 +80,14 @@ void todo_t::clear (void) {
 }
 
 void todo_t::cleanup (void) {
-	for (auto i=this->m_list.begin(); i!=this->m_list.end();i++) {
+	for (auto i=this->m_list.begin(); i!=this->m_list.end();) {
 		if ((*i)->m_state == true) {
+			delete *i;
 			this->m_list.erase(i);
 			this->m_length--;
+		}
+		else {
+			i++;
 		}
 	}
 }
@@ -129,6 +137,19 @@ std::string todo_t::toStringUndoneFormatted (void) {
 		ret += this->m_list[i]->toStringFormatted();
 		ret += "\n";
 	}
+	return ret;
+}
+
+std::string todo_t::toStringSingleFormatted (int index) {
+	std::string ret;
+	// blue color
+	ret = "\x1b[34m"
+		+ std::to_string(index)
+		+ ".  "
+		// reset color.
+		+ "\x1b[0m"
+		+ this->m_list[index-1]->toStringFormatted()
+		+ "\n";
 	return ret;
 }
 

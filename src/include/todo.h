@@ -21,7 +21,7 @@ class todo_t {
 		size_t size (void);
 
 		// pushes the specified task at the end of the list.
-		void push (task_t*);
+		void push (task_t);
 
 		// get the task by the index starts by 1
 		task_t* getTask (unsigned int);
@@ -47,6 +47,7 @@ class todo_t {
 		std::string toStringAll (void);
 		std::string toStringAllFormatted (void);
 		std::string toStringUndoneFormatted (void);
+		std::string toStringSingleFormatted (int);
 };
 
 #endif

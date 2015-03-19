@@ -29,9 +29,12 @@ todo [all]
 todo list [all]
 todo add [<string>]
 todo <number> [remove | delete]
+todo <number> [list]
 todo <number> [done | undone]
 todo <number> [change | modify | edit] [<string>]
 todo cleanup
+todo clear
+todo help
 ```
 
 How do I report a bug?
